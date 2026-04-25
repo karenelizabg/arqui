@@ -12,8 +12,8 @@ window.PROJECT_DATA = {
 
   /* ── Hero ── */
   hero: {
-    lines:     ["Casa", "Coconut"],          // Cada string = una línea del h1
-    bgImage:   "fotos/coconut-hero.jpg",     // Ruta a la imagen principal
+    lines:     ["Casa", "Coconut"],
+    bgImage:   "fotos/coconut-hero.jpg",       // ✅ Sin espacios, sin /
     tipologia: "Residencial privada",
   },
 
@@ -29,8 +29,8 @@ window.PROJECT_DATA = {
 
   /* ── Descripción (array de párrafos) ── */
   description: [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    ],
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  ],
 
   /* ── Galería ──
        Layouts disponibles por fila:
@@ -39,9 +39,13 @@ window.PROJECT_DATA = {
        "three"  → tres imágenes (la primera más ancha)
   ── */
   gallery: [
-    { layout: "full",   images: ["images/renders/casa coco nut villa/render interior casa coconut 4.jpg"] },
-    { layout: "two",    images: ["images/renders/casa coco nut villa/render interior casa coconut 5.jpg","images/renders/casa coco nut villa/render interior casa coconut 3.jpg"] },
-    { layout: "full",   images: ["images/renders/casa coco nut villa/render interior casa coconut 6.jpg"] },
+    // ✅ CORREGIDO: espacios → %20
+    { layout: "full",  images: ["images/renders/casa%20coco%20nut%20villa/render%20interior%20casa%20coconut%204.jpg"] },
+    { layout: "two",   images: [
+        "images/renders/casa%20coco%20nut%20villa/render%20interior%20casa%20coconut%205.jpg",
+        "images/renders/casa%20coco%20nut%20villa/render%20interior%20casa%20coconut%203.jpg",
+    ]},
+    { layout: "full",  images: ["images/renders/casa%20coco%20nut%20villa/render%20interior%20casa%20coconut%206.jpg"] },
   ],
 
   /* ── Navegación "siguiente proyecto" ── */
