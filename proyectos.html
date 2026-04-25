@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyectos — Imagine Construcciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Estilos globales del sitio -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Estilos exclusivos de esta página -->
+  <style>
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 160px 60px 80px;
+      border-bottom: 1px solid var(--border-contact);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .header-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 300;
+      line-height: 1;
+      color: #fff;
+    }
+    .header-sub {
+      max-width: 340px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-white-55);
+      letter-spacing: 0.04em;
+      align-self: flex-end;
+      padding-bottom: 8px;
+    }
+
+    /* ── FILTERS ── */
+    .filters {
+      display: flex;
+      padding: 0 60px;
+      border-bottom: 1px solid var(--border-dark);
+    }
+    .filter-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 22px 32px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-white-45);
+      cursor: pointer;
+      transition: color .3s, border-color .3s;
+      margin-bottom: -1px;
+    }
+    .filter-btn:hover { color: #fff; }
+    .filter-btn.active { color: #fff; border-bottom-color: var(--green-bright); }
+
+    /* ── PROJECTS GRID ── */
+    .projects-section { padding: 80px 60px 120px; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .card:first-child { grid-column: span 2; }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: var(--forest-mid);
+      cursor: pointer;
+    }
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.82) saturate(.85);
+      transition: transform .7s cubic-bezier(.25,.46,.45,.94), filter .5s ease;
+    }
+    .card:first-child .card-img { aspect-ratio: 16/9; }
+    .card:hover .card-img {
+      transform: scale(1.04);
+      filter: brightness(.75) saturate(.9);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        var(--hero-overlay-0)   0%,
+        rgba(5,18,10,0.35)      48%,
+        transparent             100%
+      );
+      pointer-events: none;
+    }
+
+    .card-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 36px 32px 32px;
+      z-index: 2;
+    }
+    .card-tag {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-white-45);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.5vw, 34px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .card-desc {
+      font-size: 12.5px;
+      line-height: 1.75;
+      color: var(--text-white-55);
+      max-width: 480px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .4s .05s, transform .4s .05s;
+      margin-bottom: 22px;
+    }
+    .card:hover .card-desc { opacity: 1; transform: translateY(0); }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      text-decoration: none;
+      border-bottom: 1px solid var(--vsl-play-border);
+      padding-bottom: 3px;
+      transition: color .3s, border-color .3s, gap .3s;
+    }
+    .card-link:hover { color: #fff; border-color: var(--text-white-6); gap: 16px; }
+    .card-link svg { width: 14px; height: 14px; }
+
+    .card-year {
+      position: absolute;
+      top: 24px; right: 24px;
+      z-index: 3;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--text-white-45);
+      border: 1px solid var(--border-dark);
+      padding: 5px 12px;
+      background: rgba(5, 18, 10, 0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── STATS BAR ── */
+    /* Reuses .authority-stats pattern from styles.css but with page-specific sizing */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border-dark);
+      margin: 0 60px;
+    }
+    .stats-bar .stat-item {
+      padding: 52px 40px;
+      border-right: 1px solid var(--border-dark);
+    }
+    .stats-bar .stat-item:last-child { border-right: none; }
+    .stats-bar .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stats-bar .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-white-35);
+    }
+
+    /* ── PAGE BG (dark, matching portfolio section) ── */
+    body { background: var(--forest); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 20px 32px; }
+      nav.scrolled { padding: 14px 32px; }
+      .page-header { padding: 120px 32px 60px; }
+      .filters { padding: 0 32px; }
+      .projects-section { padding: 64px 32px 100px; }
+      .stats-bar { margin: 0 32px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .page-header { padding: 100px 20px 56px; flex-direction: column; align-items: flex-start; gap: 24px; }
+      .header-sub { align-self: auto; }
+      .filters { padding: 0 20px; overflow-x: auto; }
+      .filter-btn { padding: 18px 20px 16px; white-space: nowrap; }
+      .projects-section { padding: 48px 20px 80px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .card:first-child { grid-column: span 1; }
+      .card:first-child .card-img { aspect-ratio: 4/3; }
+      .card-desc { opacity: 1; transform: none; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); margin: 0 20px; }
+      .stats-bar .stat-item { padding: 36px 20px; }
+      .stats-bar .stat-item:nth-child(2) { border-right: none; }
+      .stats-bar .stat-item:nth-child(3),
+      .stats-bar .stat-item:nth-child(4) { border-top: 1px solid var(--border-dark); }
+      footer { padding: 40px 20px; flex-direction: column; gap: 24px; text-align: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (usa clases de styles.css) -->
+  <nav id="main-nav">
+    <a class="nav-logo" href="index.html">Imagine Construcciones</a>
+    <ul class="nav-links">
+      <li><a href="index.html#proceso">Proceso</a></li>
+      <li><a href="index.html#proyectos" style="color:#fff">Proyectos</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="index.html#contacto">Comenzar Proyecto</a>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="page-header reveal">
+    <div>
+      <p class="header-label">Portafolio / 2019 — 2024</p>
+      <h1 class="header-title">Nuestros<br><em>Proyectos</em></h1>
+    </div>
+    <p class="header-sub">
+      Cada obra es el resultado de escuchar, planear y ejecutar con precisión. Espacios que perduran, funcionales y con carácter propio.
+    </p>
+  </header>
+
+  <!-- FILTERS -->
+  <div class="filters reveal">
+    <button class="filter-btn active" onclick="filterCards('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterCards('comercial', this)">Comercial</button>
+    <button class="filter-btn" onclick="filterCards('residencial', this)">Residencial</button>
+    <button class="filter-btn" onclick="filterCards('mixto', this)">Multipropósito</button>
+    <button class="filter-btn" onclick="filterCards('industrial', this)">Industrial</button>
+  </div>
+
+  <!-- PROJECTS GRID -->
+  <section class="projects-section">
+    <div class="projects-grid" id="grid">
+
+      <article class="card reveal" data-cat="comercial">
+        <span class="card-year">2024</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=80" alt="Torre Nexus" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Comercial · Guadalajara</span>
+          <h2 class="card-title">Torre Nexus</h2>
+          <p class="card-desc">Centro corporativo de 18 niveles diseñado para optimizar flujos de trabajo y bienestar organizacional. Certificación LEED Gold, fachada ventilada y terrazas jardín en cada piso técnico.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="residencial">
+        <span class="card-year">2023</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Altos del Parque" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Residencial · Zapopan</span>
+          <h2 class="card-title">Altos del Parque</h2>
+          <p class="card-desc">Conjunto residencial de 42 unidades con áreas comunes biofílicas, materiales locales y diseño pasivo para clima templado.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="mixto">
+        <span class="card-year">2023</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1577495508048-b635879837f1?w=800&q=80" alt="Plaza Confluencia" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Multipropósito · Tlaquepaque</span>
+          <h2 class="card-title">Plaza Confluencia</h2>
+          <p class="card-desc">Espacio mixto que integra comercio, cultura y coworking en 8,400 m² bajo una cubierta de acero tensado.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="industrial">
+        <span class="card-year">2022</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1565008576549-57569a49371d?w=800&q=80" alt="Nave Oriente" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Industrial · El Salto</span>
+          <h2 class="card-title">Nave Oriente</h2>
+          <p class="card-desc">Centro logístico de 22,000 m² con paneles fotovoltaicos, sistema ESFR y accesos para vehículos de gran tonelaje.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="residencial">
+        <span class="card-year">2022</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Casa Bosque" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Residencial · Chapala</span>
+          <h2 class="card-title">Casa Bosque</h2>
+          <p class="card-desc">Vivienda unifamiliar de 620 m² integrada al paisaje de ribera, con volúmenes de concreto aparente y patios de doble altura.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="comercial">
+        <span class="card-year">2021</span>
+        <img class="card-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" alt="Hotel Mirador" loading="lazy" />
+        <div class="card-body">
+          <span class="card-tag">Comercial · Puerto Vallarta</span>
+          <h2 class="card-title">Hotel Mirador</h2>
+          <p class="card-desc">Boutique hotel de 5 pisos con 68 habitaciones, spa, restaurante de azotea y terraza-alberca con vistas panorámicas al Pacífico.</p>
+          <a class="card-link" href="">
+            Saber más
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item reveal">
+      <div class="stat-num">84</div>
+      <div class="stat-label">Proyectos entregados</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num">12</div>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num">96%</div>
+      <div class="stat-label">Clientes satisfechos</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num">18</div>
+      <div class="stat-label">Ciudades en México</div>
+    </div>
+  </div>
+
+  <!-- FOOTER (usa clases de styles.css) -->
+  <footer>
+    <div class="footer-logo">Imagine Construcciones</div>
+    <ul class="footer-links">
+      <li><a href="index.html.html#proceso">Proceso</a></li>
+      <li><a href="#">Proyectos</a></li>
+      <li><a href="index.html.html#contacto">Contacto</a></li>
+      <li><a href="#">Aviso de Privacidad</a></li>
+    </ul>
+    <div class="footer-right">© 2026 Imagine Construcciones</div>
+  </footer>
+
+  <script>
+    // Nav scroll — reutiliza clase .scrolled de styles.css
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Scroll reveal — reutiliza .reveal / .visible de styles.css
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Filter
+    function filterCards(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const match = cat === 'todos' || card.dataset.cat === cat;
+        card.style.transition = 'opacity .35s, transform .35s';
+        card.style.opacity = match ? '1' : '0.15';
+        card.style.transform = match ? '' : 'scale(.97)';
+        card.style.pointerEvents = match ? '' : 'none';
+      });
+
+      // Mantiene el span:2 del featured solo cuando aplica
+      const featured = cards[0];
+      const featuredMatch = cat === 'todos' || featured.dataset.cat === cat;
+      featured.style.gridColumn = featuredMatch ? 'span 2' : 'span 1';
+    }
+  </script>
+</body>
+</html>

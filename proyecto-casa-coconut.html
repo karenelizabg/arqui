@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Proyecto — Imagine Construcciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- ① Estilos globales del sitio -->
+<link rel="stylesheet" href="styles.css">
+
+<!-- ② Estilos exclusivos de la página de proyecto (hereda variables de styles.css) -->
+<style>
+  /* ── NAV: variante "back" ── */
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s, gap 0.2s;
+  }
+  .nav-back:hover { color: #fff; gap: 14px; }
+  .nav-back svg { transform: rotate(180deg); }
+
+  /* ── HERO ── */
+  .hero-title {
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s ease forwards;
+  }
+  .hero-title h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 9vw, 120px);
+    font-weight: 300;
+    color: #fff;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .hero-meta-bar {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    z-index: 2;
+    text-align: right;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s ease forwards;
+  }
+  .hero-meta-bar span {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 4px;
+  }
+  .hero-meta-bar strong {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── PROJECT INFO ── */
+  .project-info-section {
+    background: var(--warm-white);
+    padding: 80px 60px 100px;
+    border-bottom: 1px solid var(--border-contact);
+  }
+  .project-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.6fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 32px;
+  }
+  .meta-item label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .meta-item p {
+    font-size: 16px;
+    color: var(--text-dark);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .project-description p {
+    font-size: 16px;
+    color: #3a4e40;
+    line-height: 1.9;
+    font-weight: 300;
+  }
+  .project-description p + p { margin-top: 20px; }
+
+  /* ── GALLERY ── */
+  .gallery-full {
+    padding: 80px 0 0;
+    background: var(--warm-white);
+  }
+  .gallery-label {
+    padding: 0 60px 48px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .gallery-row-full {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .gallery-row-full img {
+    width: 100%;
+    height: 65vh;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .gallery-row-full:hover img { transform: scale(1.02); }
+
+  .gallery-row-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .gallery-row-three {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .gallery-cell {
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .gallery-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .gallery-cell:hover img { transform: scale(1.04); }
+
+  /* ── NEXT PROJECT ── */
+  .next-project {
+    margin-top: 120px;
+    padding: 60px 60px 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid var(--border-contact);
+  }
+  .next-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .next-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 300;
+    color: var(--text-dark);
+    text-decoration: none;
+    display: block;
+    transition: letter-spacing 0.4s;
+  }
+  .next-title:hover { letter-spacing: 0.02em; }
+  .next-arrow {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .next-arrow:hover {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: #fff;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .project-info-section { padding: 60px 32px 80px; }
+    .project-info-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .project-description { grid-column: 1 / -1; }
+    .gallery-label { padding: 0 32px 40px; }
+    .next-project { padding: 48px 32px 80px; }
+  }
+  @media (max-width: 768px) {
+    .hero-title { bottom: 40px; left: 20px; }
+    .hero-meta-bar { bottom: 40px; right: 20px; }
+    .project-info-section { padding: 48px 20px 64px; }
+    .project-info-grid { grid-template-columns: 1fr; gap: 32px; }
+    .meta-block { grid-template-columns: 1fr 1fr; }
+    .gallery-label { padding: 0 20px 32px; }
+    .gallery-row-two,
+    .gallery-row-three { grid-template-columns: 1fr; }
+    .gallery-row-full img { height: 50vw; }
+    .next-project { padding: 40px 20px 64px; flex-direction: column; gap: 32px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">Imagine Construcciones</a>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Proyectos
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero-section">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-title" id="hero-title"></div>
+  <div class="hero-meta-bar" id="hero-meta-bar">
+    <span>Tipología</span>
+    <strong id="hero-tipologia"></strong>
+  </div>
+</section>
+
+<!-- PROJECT INFO -->
+<section class="project-info-section">
+  <div class="project-info-grid">
+    <div class="meta-block reveal" id="meta-col-1"></div>
+    <div class="meta-block reveal reveal-delay-1" id="meta-col-2"></div>
+    <div class="project-description reveal reveal-delay-2" id="project-description"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery-full" id="gallery-container">
+  <p class="gallery-label reveal">Galería del proyecto</p>
+  <div id="gallery-rows"></div>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project reveal" id="next-project">
+  <div>
+    <span class="next-label">Siguiente proyecto</span>
+    <a href="#" class="next-title" id="next-project-link"></a>
+  </div>
+  <a href="#" class="next-arrow" id="next-project-arrow">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Imagine Construcciones</div>
+  <div class="footer-right">© 2026 Imagine Construcciones</div>
+</footer>
+
+
+<!-- ③ Datos del proyecto — cambia este script por el del proyecto correspondiente -->
+<script src="casa-coconut.js"></script>
+
+<!-- ④ Motor de la plantilla — no tocar -->
+<script>
+(function () {
+  const d = window.PROJECT_DATA;
+  if (!d) { console.error('PROJECT_DATA no encontrado.'); return; }
+
+  /* Título de página */
+  document.title = d.siteTitle || d.title + ' — Imagine Construcciones';
+
+  /* Hero */
+  document.getElementById('hero-bg').style.backgroundImage = `url('${d.hero.bgImage}')`;
+  document.getElementById('hero-title').innerHTML =
+    `<h1>${d.hero.lines.join('<br>')}</h1>`;
+  document.getElementById('hero-tipologia').textContent = d.hero.tipologia;
+
+  /* Ficha técnica — reparte en dos columnas */
+  const half = Math.ceil(d.meta.length / 2);
+  const metaHTML = d.meta.map(item => `
+    <div class="meta-item">
+      <label>${item.label}</label>
+      <p>${item.value}</p>
+    </div>`).join('');
+
+  const col1Items = d.meta.slice(0, half);
+  const col2Items = d.meta.slice(half);
+
+  document.getElementById('meta-col-1').innerHTML =
+    col1Items.map(item => `<div class="meta-item"><label>${item.label}</label><p>${item.value}</p></div>`).join('');
+  document.getElementById('meta-col-2').innerHTML =
+    col2Items.map(item => `<div class="meta-item"><label>${item.label}</label><p>${item.value}</p></div>`).join('');
+
+  /* Descripción */
+  document.getElementById('project-description').innerHTML =
+    d.description.map(p => `<p>${p}</p>`).join('');
+
+  /* Galería */
+  const galleryRows = document.getElementById('gallery-rows');
+  d.gallery.forEach(row => {
+    if (row.layout === 'full') {
+      galleryRows.innerHTML += `
+        <div class="gallery-row-full reveal">
+          <img src="${row.images[0]}" alt="">
+        </div>`;
+    } else if (row.layout === 'two') {
+      galleryRows.innerHTML += `
+        <div class="gallery-row-two reveal">
+          ${row.images.map(src => `<div class="gallery-cell"><img src="${src}" alt=""></div>`).join('')}
+        </div>`;
+    } else if (row.layout === 'three') {
+      galleryRows.innerHTML += `
+        <div class="gallery-row-three reveal">
+          ${row.images.map(src => `<div class="gallery-cell"><img src="${src}" alt=""></div>`).join('')}
+        </div>`;
+    }
+  });
+
+  /* Siguiente proyecto */
+  const np = d.nextProject;
+  document.getElementById('next-project-link').textContent = np.label;
+  document.getElementById('next-project-link').href = np.href;
+  document.getElementById('next-project-arrow').href = np.href;
+
+  /* Nav scroll */
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  /* Scroll reveal */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>
